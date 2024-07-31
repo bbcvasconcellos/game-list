@@ -1,31 +1,45 @@
-import { StyleSheet } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+import { useContext } from 'react';
+import { GameListContext } from '@/context/gameList';
+import { GameCard } from '@/components/gameCard';
 
-export default function TabOneScreen() {
+export default function GamesScreen() {
+  const { gameList, isLoading, isRefreshing, handleRefreshing } = useContext(GameListContext);  
+  
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
-    </View>
+    <>
+    { isLoading ? <Text>Loading...</Text> :
+      <View style={styles.container}>
+        <FlatList 
+          data={gameList}
+          showsVerticalScrollIndicator={false}
+          renderItem={({item}) => 
+            <GameCard 
+              iconURL={item.iconURL}
+              rating={item.rating}
+              title={item.title}
+              id={item.id}
+              key={item.id}
+              isFavorite={item.isFavorite}
+            />
+          }
+          refreshing={isRefreshing}
+          onRefresh={handleRefreshing}
+        />
+      </View>
+    }
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingHorizontal: 12,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
+  loading: {
+    color: "white",
+    textAlign: "center"
+  }
+})
+

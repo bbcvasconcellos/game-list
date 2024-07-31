@@ -1,31 +1,35 @@
-import { StyleSheet } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+import { View } from '@/components/Themed';
+import { useContext } from 'react';
+import { GameCard } from '@/components/gameCard';
+import { GameListContext } from '@/context/gameList';
 
-export default function TabTwoScreen() {
+export default function FavoriteScreen() {
+  const { gameList, isLoading } = useContext(GameListContext);
+    
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/two.tsx" />
+      <FlatList 
+       data={gameList}
+       showsVerticalScrollIndicator={false}
+       renderItem={({ item }) => item.isFavorite ?
+        <GameCard 
+          iconURL={item.iconURL}
+          rating={item.rating}
+          title={item.title}
+          key={item.id}
+          id={item.id}
+          isFavorite={item.isFavorite}
+        /> : <></>
+       }
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
+    paddingHorizontal: 12,
+  }
+})
