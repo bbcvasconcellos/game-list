@@ -53,7 +53,8 @@ function RootLayoutNav() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <GameListProvider>
       <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false, title: "Menu" }} />
+        <Stack.Screen name='details/[id]' options={{ headerShown: false }}/>
       </Stack>
       </GameListProvider>
     </ThemeProvider>
