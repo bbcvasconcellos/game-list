@@ -1,7 +1,5 @@
 # game-list
 
-# game-list
-
 This project is developer using React Native and Expo. Consists of an API consumption using contextAPI to display on the user's screen a list of games and its details. Furthermore, the user is able to add/remove a game to a favorite list.
 
 ## Tech Stack
